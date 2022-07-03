@@ -81,7 +81,7 @@ module.exports = {
 
     const token = generateJwt(user.id, user.email, user.role, user.name);
 
-    return res.status(200).json({ token, role: user.Role.name });
+    return res.status(200).json({ token, role: user.Role.name, id: user.id });
   },
 
   async reset(req, res) {

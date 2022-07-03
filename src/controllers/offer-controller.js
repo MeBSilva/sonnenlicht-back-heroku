@@ -112,6 +112,8 @@ module.exports = {
 
       return res.json(200).json(offer);
     } catch (err) {
+      console.log(err);
+
       return next(
         new HttpError(
           err.statusCode ? err.statusCode : 402,

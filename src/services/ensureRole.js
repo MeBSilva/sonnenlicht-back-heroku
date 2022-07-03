@@ -12,9 +12,13 @@ const is = (roles) => {
 
     if (!user) return next(new HttpError(400, "User not found"));
 
+    console.log("first step");
+
     const userHasRole = roles.includes(user.Role.name);
 
     if (!userHasRole) return next(new HttpError(403), "User role error");
+
+    console.log("final step", user, userHasRole);
 
     next();
   };

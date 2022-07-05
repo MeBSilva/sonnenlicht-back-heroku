@@ -8,7 +8,7 @@ const HttpError = require("../utils/HttpError");
 
 module.exports = {
   async create(req, res, next) {
-    const { name, password, email, phone_number, role } = req.body;
+    const { name, password, email, phoneNumber, role } = req.body;
 
     const userAlreadyExists = await db.User.findOne({ where: { email } });
 
@@ -34,7 +34,7 @@ module.exports = {
           name,
           password: bcryptedPassword,
           email,
-          phone_number,
+          phone_number: phoneNumber,
           role_id: roleExists.id,
         },
         { transaction }
@@ -71,7 +71,10 @@ module.exports = {
     if (!email || !password)
       return next(new HttpError(402, "Wrong email/password"));
 
-    const user = await db.User.findOne({ where: { email }, include: ["Role"] });
+    const user = await db.User.scope("withPassword").findOne({
+      where: { email },
+      include: ["Role"],
+    });
 
     if (!user) return next(new HttpError(401, "Wrong email/password"));
 

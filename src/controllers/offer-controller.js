@@ -4,7 +4,7 @@ const db = require("../models");
 const HttpError = require("../utils/HttpError");
 
 module.exports = {
-  async list(req, res) {
+  async list(req, res, next) {
     try {
       const { status } = req.query;
 

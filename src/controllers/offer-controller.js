@@ -41,7 +41,18 @@ module.exports = {
   async listOwner(req, res) {
     const { user_id } = req;
     try {
-      const offers = await db.Offer.findAll({ where: { owner_id: user_id } });
+      const offers = await db.Offer.findAll({
+        include: [
+          {
+            model: db.Owner,
+            as: "Owner",
+            attributes: {
+              exclude: ["id", "createdAt", "updatedAt"],
+            },
+            include: { model: db.User, as: "User", where: { id: user_id } },
+          },
+        ],
+      });
       return res.status(200).json(offers);
     } catch (err) {
       return next(
@@ -215,7 +226,6 @@ module.exports = {
 
       return res.status(200).json(offer);
     } catch (err) {
-      console.log(err);
       return next(
         new HttpError(
           err.statusCode ? err.statusCode : 402,

@@ -49,7 +49,13 @@ module.exports = {
             attributes: {
               exclude: ["id", "createdAt", "updatedAt"],
             },
-            include: { model: db.User, as: "User", where: { id: user_id } },
+            required: true,
+            include: {
+              model: db.User,
+              as: "User",
+              where: { id: user_id },
+              required: true,
+            },
           },
         ],
       });
